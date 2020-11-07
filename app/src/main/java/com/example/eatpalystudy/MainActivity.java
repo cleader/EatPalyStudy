@@ -50,35 +50,31 @@ public class MainActivity extends AppCompatActivity {
         mapView.setDaumMapApiKey(KakaoMapAPI);
         mapViewContainer.addView(mapView);
         mapView.removeAllPOIItems();
-        System.out.println("=======================getKey" + getKeyHash(getApplicationContext()));
         Handler handler = new Handler();
         handler.postAtTime(new Runnable() {
             @Override
             public void run() {
-                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+            //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                callFunction();
+//
             }
         },4000);
         locationManager = (LocationManager)getApplicationContext().getSystemService((Context.LOCATION_SERVICE));
 
 
-//        final MapView mapView = new MapView(this);
-////        TextView textView = new TextView(getApplicationContext());
-////        textView.setText("TTTTTTT");
-//        ViewGroup mapViewContainer = (ViewGroup)findViewById(R.id.map_view);
-//        mapViewContainer.addView(mapView);
-////        mapViewContainer.addView(textView);
-//
-//        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
-//        mapView.setCurrentLocationRadius(100); // meter
-//        mapView.setMapCenterPoint(MapPoint.mapPointWithCONGCoord(37.53737528, 127.00557633), true);
-//        mapView.setZoomLevel(7,true);
-//        mapView.zoomIn(true);
-//        mapView.setShowCurrentLocationMarker(true);
-//
-//        MapPOIItem marker = new MapPOIItem();
-//        marker.setItemName("내가 있는 곳");
-//        marker.setTag(0);
 
+    }
+
+    private void callFunction() {
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+        mapView.setCurrentLocationRadius(50); // meter
+        mapView.setMapCenterPoint(MapPoint.mapPointWithCONGCoord(37.53737528, 127.00557633), true);
+        mapView.setZoomLevel(7,true);
+        mapView.zoomIn(true);
+        mapView.setShowCurrentLocationMarker(true);
+        MapPOIItem marker = new MapPOIItem();
+        marker.setItemName("내가 있는 곳");
+        marker.setTag(0);
 
     }
 
@@ -96,8 +92,13 @@ public class MainActivity extends AppCompatActivity {
             try{
                 MessageDigest md = MessageDigest.getInstance( "SHA" );
                 md.update( signature.toByteArray() );
+                Log.d("MainActivity","디버그 keyHash" + signature);
+
                 return Base64.encodeToString( md.digest(), Base64.NO_WRAP );
-            } catch (NoSuchAlgorithmException e) { System.out.println( "디버그 keyHash" + signature ); }
+            } catch (NoSuchAlgorithmException e) {
+//                System.out.println( "디버그 keyHash" + signature );
+                Log.d("MainActivity","디버그 keyHash" + signature.toString());
+            }
         } return null; }
 
     }
